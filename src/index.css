@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@layer components {
+  .navLink {
+    @apply flex flex-nowrap items-center justify-center gap-2 border border-transparent hover:border-gray-300 rounded-xl p-2 md:p-4 ease-in duration-300;
+  }
+
+  .button {
+    @apply px-4 py-2 bg-blue-600 border-[1px] border-transparent rounded-md text-base hover:bg-blue-500 duration-300;
+  }
+
+  .button-outline {
+    @apply px-4 py-2 bg-transparent border-[1px] border-gray-700 rounded-md text-base hover:border-blue-600 duration-300;
+  }
+
+  .title {
+    @apply ml-2 mb-5 md:mb-0 flex items-center text-3xl font-semibold relative before:w-0.5 before:h-[100%] before:bg-blue-600 before:absolute before:-left-4;
+  }
+}
