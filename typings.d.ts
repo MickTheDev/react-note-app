@@ -4,4 +4,5 @@ export interface NoteType {
   description: String;
   category: String;
   isFavorite: Boolean;
+  trashed: Boolean;
 }

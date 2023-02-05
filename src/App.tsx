@@ -6,7 +6,9 @@ import { NoteType } from '../typings';
 import { nanoid } from 'nanoid';
 
 function App() {
+  const [allNotes, setAllNotes] = useState<NoteType[]>([]);
   const [notes, setNotes] = useState<NoteType[]>([]);
+  const [trashedNotes, setTrashedNotes] = useState<NoteType[]>([]);
   const [notesCounter, setNotesCounter] = useState<String>('0');
 
   const [title, setTitle] = useState<string>('');
@@ -14,8 +16,18 @@ function App() {
   const [category, setCategory] = useState<string>('Shopping');
   const [favorite, setFavorite] = useState<boolean>(false);
 
-  const handleDeleteNote = (id: any) =>
-    setNotes(notes.filter((note) => note.id != id));
+  const handleDeleteNote = (id: any) => {
+    const updatedNotes = allNotes.map((note) => {
+      if (note.id === id) {
+        return { ...note, trashed: true };
+      }
+      return note;
+    });
+
+    if (updatedNotes) {
+      setAllNotes(updatedNotes);
+    }
+  };
 
   const handleAddNote = () => {
     setTitle('');
@@ -28,28 +40,46 @@ function App() {
       description: description,
       category: category,
       isFavorite: favorite,
+      trashed: false,
     };
-    setNotes([...notes, newNote]);
+    setAllNotes([...allNotes, newNote]);
+  };
+
+  const handleUndoNote = (id: any) => {
+    const updatedNotes = allNotes.map((note) => {
+      if (note.id === id) {
+        return { ...note, trashed: false };
+      }
+      return note;
+    });
+
+    if (updatedNotes) {
+      setAllNotes(updatedNotes);
+    }
   };
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('notes') || '[]');
     if (storedData) {
-      setNotes(storedData);
+      setAllNotes(storedData);
+      setTrashedNotes(allNotes.filter((note) => note.trashed));
       setNotesCounter(notes.length.toString());
     }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('notes', JSON.stringify(notes));
+    localStorage.setItem('notes', JSON.stringify(allNotes));
     setNotesCounter(notes.length.toString());
-  }, [notes]);
+    setNotes(allNotes.filter((note) => !note.trashed));
+    setTrashedNotes(allNotes.filter((note) => note.trashed));
+  }, [allNotes]);
 
   return (
     <Context.Provider
       value={{
         handleDeleteNote,
         handleAddNote,
+        handleUndoNote,
         setTitle,
         title,
         setDescription,
@@ -83,7 +113,7 @@ function App() {
             />
             <Route
               path='/trash'
-              element={<Trash />}
+              element={<Trash trashed={trashedNotes} />}
             />
             <Route
               path='/favorite'

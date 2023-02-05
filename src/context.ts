@@ -3,6 +3,7 @@ import { createContext } from 'react';
 interface ContextProps {
   handleDeleteNote: (id: any) => void;
   handleAddNote: () => void;
+  handleUndoNote: (id: any) => void;
   setTitle: React.Dispatch<React.SetStateAction<any>>;
   title: any;
   setDescription: React.Dispatch<React.SetStateAction<any>>;
