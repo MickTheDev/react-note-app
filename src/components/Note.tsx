@@ -16,9 +16,9 @@ const Note = ({ note }: Props) => {
       animate={{ x: 0, opacity: 1 }}
       className='bg-seconds border-[1px] border-gray-800 rounded-md p-4 flex flex-col justify-between items-start gap-3'
     >
-      <div>
+      <div className='w-full'>
         <h3 className='mb-2 text-2xl font-semibold'>{note.title}</h3>
-        <div className='bg-background border-[1px] border-gray-800 rounded-md p-4 h-auto '>
+        <div className='bg-background border-[1px] border-gray-800 rounded-md p-4 h-auto w-full'>
           <h4 className='mb-3 text-gray-300 font-semibold text-xl'>
             {note.category}
           </h4>

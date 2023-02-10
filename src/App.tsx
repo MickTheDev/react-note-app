@@ -9,7 +9,10 @@ function App() {
   const [allNotes, setAllNotes] = useState<NoteType[]>([]);
   const [notes, setNotes] = useState<NoteType[]>([]);
   const [trashedNotes, setTrashedNotes] = useState<NoteType[]>([]);
+  const [favoriteNotes, setFavoriteNotes] = useState<NoteType[]>([]);
   const [notesCounter, setNotesCounter] = useState<String>('0');
+  const [trashedCounter, setTrashedCounter] = useState<String>('0');
+  const [favoriteCounter, setFavoriteCounter] = useState<String>('0');
 
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -27,6 +30,13 @@ function App() {
     if (updatedNotes) {
       setAllNotes(updatedNotes);
     }
+  };
+
+  const handleDeleteAll = () => {
+    const updatedNotes = allNotes.map((note) => {
+      return { ...note, trashed: true };
+    });
+    setAllNotes(updatedNotes);
   };
 
   const handleAddNote = () => {
@@ -58,26 +68,51 @@ function App() {
     }
   };
 
+  const handleEmptyBin = () => {
+    const updatedNotes = allNotes.filter(
+      (note) => !trashedNotes.includes(note)
+    );
+    setAllNotes(updatedNotes);
+  };
+
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem('notes') || '[]');
     if (storedData) {
       setAllNotes(storedData);
       setTrashedNotes(allNotes.filter((note) => note.trashed));
       setNotesCounter(notes.length.toString());
+      setTrashedCounter(trashedNotes.length.toString());
+      // setFavoriteCounter()
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('notes', JSON.stringify(allNotes));
-    setNotesCounter(notes.length.toString());
     setNotes(allNotes.filter((note) => !note.trashed));
     setTrashedNotes(allNotes.filter((note) => note.trashed));
+    setFavoriteNotes(
+      allNotes.filter((note) => note.isFavorite && !note.trashed)
+    );
   }, [allNotes]);
+
+  useEffect(() => {
+    setNotesCounter(notes.length.toString());
+  }, [notes]);
+
+  useEffect(() => {
+    setTrashedCounter(trashedNotes.length.toString());
+  }, [trashedNotes]);
+
+  useEffect(() => {
+    setFavoriteCounter(favoriteNotes.length.toString());
+  }, [favoriteNotes]);
 
   return (
     <Context.Provider
       value={{
+        handleEmptyBin,
         handleDeleteNote,
+        handleDeleteAll,
         handleAddNote,
         handleUndoNote,
         setTitle,
@@ -88,6 +123,9 @@ function App() {
         category,
         setFavorite,
         favorite,
+        notesCounter,
+        trashedCounter,
+        favoriteCounter,
       }}
     >
       <div className='App font-helvetica flex bg-background overflow-hidden'>
@@ -104,12 +142,7 @@ function App() {
             />
             <Route
               path='/notes'
-              element={
-                <Notes
-                  notes={notes}
-                  counter={notesCounter}
-                />
-              }
+              element={<Notes notes={notes} />}
             />
             <Route
               path='/trash'
@@ -117,7 +150,7 @@ function App() {
             />
             <Route
               path='/favorite'
-              element={<Favorite />}
+              element={<Favorite favoriteNotes={favoriteNotes} />}
             />
           </Routes>
         </Router>

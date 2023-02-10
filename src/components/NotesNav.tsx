@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { Context } from '../context';
 
-type Props = {
-  counter: String;
-};
+type Props = {};
 
-const NotesNav = ({ counter }: Props) => {
+const NotesNav = ({}: Props) => {
+  const { notesCounter, handleDeleteAll } = useContext(Context);
   return (
     <div className='flex flex-col md:flex-row items-center justify-center md:justify-between mb-10 relative'>
       <h3 className='title'>
         Notes
         <span className=' flex items-center justify-center ml-2 w-7 h-7 text-lg bg-blue-600 rounded-[50%]'>
-          {counter}
+          {notesCounter}
         </span>
       </h3>
       <form
@@ -27,7 +27,12 @@ const NotesNav = ({ counter }: Props) => {
           <option value='sorting'>Sorting</option>
           <option value='favorites'>Favorites</option>
         </select>
-        <button className='button'>Trash all</button>
+        <button
+          onClick={handleDeleteAll}
+          className='button'
+        >
+          Trash all
+        </button>
       </form>
     </div>
   );

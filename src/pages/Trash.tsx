@@ -1,6 +1,6 @@
 import React from 'react';
 import { NoteType } from '../../typings';
-import { NotesList } from '../components';
+import { NotesList, TrashNav } from '../components';
 import { motion } from 'framer-motion';
 
 type Props = {
@@ -14,6 +14,7 @@ const Trash = ({ trashed }: Props) => {
       animate={{ opacity: 1, x: 0 }}
       className='h-screen flex flex-col justify-center w-full text-white max-w-5xl ml-[60px] md:ml-[110px] xl:mx-auto py-24 px-4 overflow-hidden'
     >
+      <TrashNav />
       <NotesList notes={trashed} />
     </motion.div>
   );
