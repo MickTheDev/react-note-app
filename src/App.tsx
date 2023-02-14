@@ -40,19 +40,27 @@ function App() {
   };
 
   const handleAddNote = () => {
-    setTitle('');
-    setDescription('');
-    setCategory('');
-    setFavorite(false);
-    const newNote: NoteType = {
-      id: nanoid(),
-      title: title,
-      description: description,
-      category: category,
-      isFavorite: favorite,
-      trashed: false,
-    };
-    setAllNotes([...allNotes, newNote]);
+    if (
+      title != '' &&
+      title.length > 3 &&
+      description != '' &&
+      description.length > 10 &&
+      category != ''
+    ) {
+      setTitle('');
+      setDescription('');
+      setCategory('Shopping');
+      setFavorite(false);
+      const newNote: NoteType = {
+        id: nanoid(),
+        title: title,
+        description: description,
+        category: category,
+        isFavorite: favorite,
+        trashed: false,
+      };
+      setAllNotes([...allNotes, newNote]);
+    }
   };
 
   const handleUndoNote = (id: any) => {

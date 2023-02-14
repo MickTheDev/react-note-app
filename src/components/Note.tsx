@@ -14,15 +14,15 @@ const Note = ({ note }: Props) => {
     <motion.div
       initial={{ x: -100, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
-      className='bg-seconds border-[1px] border-gray-800 rounded-md p-4 flex flex-col justify-between items-start gap-3'
+      className='w-full border-[1px] border-gray-800 rounded-md p-4 flex flex-col justify-between items-start gap-3'
     >
-      <div className='w-full'>
+      <div className='w-full relative border-2 border-red-500'>
         <h3 className='mb-2 text-2xl font-semibold'>{note.title}</h3>
-        <div className='bg-background border-[1px] border-gray-800 rounded-md p-4 h-auto w-full'>
+        <div className='bg-background border-[1px] border-gray-800 rounded-md p-4 h-auto w-full relative'>
           <h4 className='mb-3 text-gray-300 font-semibold text-xl'>
             {note.category}
           </h4>
-          <p>{note.description}</p>
+          <p className='max-w-full'>{note.description}</p>
         </div>
       </div>
       <div className='flex gap-2'>

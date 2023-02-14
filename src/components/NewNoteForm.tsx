@@ -20,7 +20,7 @@ const NewNoteForm = (props: Props) => {
   } = useContext(Context);
 
   return (
-    <div className='w-full flex items-center justify-between gap-8 text-white'>
+    <div className='flex items-center justify-between gap-8 text-white'>
       <div className='flex flex-col gap-5 items-start justify-between w-full lg:w-[544px]'>
         <h3 className='title'>Create new note</h3>
         <form className='flex flex-col gap-4 w-full'>
@@ -31,14 +31,16 @@ const NewNoteForm = (props: Props) => {
               className='border-[1px] border-gray-800 bg-transparent outline-none rounded-md px-4 py-2 w-full'
               onChange={(e) => setTitle(e.target.value)}
               value={title}
+              maxLength={25}
             />
           </label>
           <label className='flex flex-col justify-center items-start'>
             Description
             <textarea
-              className='border-[1px] border-gray-800 bg-transparent outline-none rounded-md px-4 py-2 w-full min-h-[60px] max-h-[150px]'
+              className='border-[1px] border-gray-800 bg-transparent outline-none rounded-md px-4 py-2 w-full min-h-[100px] max-h-[150px]'
               onChange={(e) => setDescription(e.target.value)}
               value={description}
+              maxLength={150}
             />
           </label>
           <label className='flex flex-col justify-center items-start'>
